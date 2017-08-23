@@ -1,18 +1,21 @@
 {
     "name": "ngtfkx/LaradeckAddressGenerator",
     "type": "library",
-    "description": ":package_description",
+    "description": "Generating real addresses to create test data",
     "keywords": [
         "ngtfkx",
-        "LaradeckAddressGenerator"
+        "LaradeckAddressGenerator",
+        "address",
+        "fixtures",
+        "data"
     ],
     "homepage": "https://github.com/ngtfkx/LaradeckAddressGenerator",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
-            "homepage": ":author_website",
+            "name": "Denis Sandal",
+            "email": "den.sandal@gmail.com",
+            "homepage": "https://github.com/ngtfkx/",
             "role": "Developer"
         }
     ],
