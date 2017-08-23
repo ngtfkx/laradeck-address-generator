@@ -1,6 +1,6 @@
 <?php
 
-namespace ngtfkx\LaradeckAddressGenerator;
+namespace Ngtfkx\LaradeckAddressGenerator;
 
 use Illuminate\Support\ServiceProvider;
 
