@@ -1,4 +1,4 @@
-# :package_name
+# Laradeck Address Generator
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
@@ -7,48 +7,41 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-**Note:** Replace ```:author_name``` ```:author_username``` ```:author_website``` ```:author_email``` ```:vendor``` ```:package_name``` ```:package_description``` with their correct values in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), [CONTRIBUTING.md](CONTRIBUTING.md), [LICENSE.md](LICENSE.md) and [composer.json](composer.json) files, then delete this line. You can run `$ php prefill.php` in the command line to make all replacements at once. Delete the file prefill.php as well.
+Генерация реальных адресов для нужд разработки. 
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
-PSRs you support to avoid any confusion with users and contributors.
-
-## Structure
-
-If any of the following are applicable to your project, then the directory structure should follow industry best practises by being named the following.
-
-```
-bin/        
-config/
-src/
-tests/
-vendor/
-```
-
+В отличии от Faker адреса реальны для каждого города и их можнор выводить на карту. 
+Теперь у тестировщика не будет вопросов - почему 
+маркер на карте не совпадает с адресом и как это объяснить клиенту/заказчику.
 
 ## Install
 
 Via Composer
 
 ``` bash
-$ composer require :vendor/:package_name
+$ composer require ngtfkx/laradeck-address-generator ~0.1
 ```
 
 ## Usage
 
+Получение случайного адреса для любого из городов, который есть в пакете
+
 ``` php
-$skeleton = new League\Skeleton();
-echo $skeleton->echoPhrase('Hello, League!');
+$generator = new Generator();
+$address = $generator->getRandomAddress();
+```
+
+Получение случайного адреса для любого из указанных городов
+
+``` php
+$generator = new Generator();
+$generator->setCities('Tomsk', 'nsk', 'Омск'); // можно передавать массив
+$generator->addCity('новосибирск'); // добавит город к ранее установленным
+$address = $generator->getRandomAddress(); // адрес будет для какого-то из вышеуказанных 4-х горолдов
 ```
 
 ## Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
-## Testing
-
-``` bash
-$ composer test
-```
 
 ## Contributing
 
@@ -56,11 +49,11 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) and [CODE_OF_CONDUCT](CODE_OF_CONDUCT
 
 ## Security
 
-If you discover any security related issues, please email :author_email instead of using the issue tracker.
+If you discover any security related issues, please email den.sandal@gmail.com instead of using the issue tracker.
 
 ## Credits
 
-- [:author_name][link-author]
+- [Denis Sandal][link-author]
 - [All Contributors][link-contributors]
 
 ## License
