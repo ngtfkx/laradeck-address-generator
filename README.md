@@ -60,6 +60,20 @@ If you discover any security related issues, please email den.sandal@gmail.com i
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
+## TODO
+
+- Скрипт получение улиц и номеров домов из открытых источников (кладр, фиас, etc)
+- Заполнение данными существующих гордов
+- Добавление новых городов и заполнение их данными
+- Ленивая загрузка адресов
+- Поддержка координат для адресов
+- Убрать из пакета зависимости от Laravel (сервис-провайдер)
+- Доработка пакета до версии 1.0.0
+- Добавление других стран
+- Документация и примеры использования
+- Локализация адресов
+- Перевод всех текстов на githab на английский
+
 [ico-version]: https://img.shields.io/packagist/v/ngtfkx/laradeck-address-generator.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/ngtfkx/laradeck-address-generator/master.svg?style=flat-square

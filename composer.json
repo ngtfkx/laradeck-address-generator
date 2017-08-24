@@ -30,12 +30,12 @@
     },
     "autoload": {
         "psr-4": {
-            "ngtfkx\\LaradeckAddressGenerator\\": "src"
+            "Ngtfkx\\LaradeckAddressGenerator\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ngtfkx\\LaradeckAddressGenerator\\": "tests"
+            "Ngtfkx\\LaradeckAddressGenerator\\": "tests"
         }
     },
     "scripts": {
