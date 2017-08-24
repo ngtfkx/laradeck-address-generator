@@ -111,9 +111,9 @@ class Address
     /**
      * Получить широту точки на карте соответсвующую адресу
      *
-     * @return float
+     * @return float|null
      */
-    public function getLatitude(): float
+    public function getLatitude(): ?float
     {
         return $this->latitude;
     }
@@ -121,9 +121,9 @@ class Address
     /**
      * Получить долготу точки на карте соответсвующую адресу
      *
-     * @return float
+     * @return float|null
      */
-    public function getLongitude(): float
+    public function getLongitude(): ?float
     {
         return $this->longitude;
     }
