@@ -35,44 +35,9 @@ class Generator
     {
         $this->cities = new Collection();
 
-        $this->searchableCityNames = new Collection();
+        $this->makeCities();
 
-        $this->availableCities = new Collection();
-
-        $this->availableAddresses = new Collection();
-
-        /**
-         * Генерирум коллекцию всех доступных городов
-         */
-        foreach (include('data/cities.php') as $key => $items) {
-
-            $this->availableCities->put($key, $items[0]);
-
-            foreach ($items as $item) {
-                $item = Helper::prepare($item);
-
-                if (!$this->searchableCityNames->contains($item)) {
-                    $this->searchableCityNames->put($item, $key);
-                }
-            }
-        }
-
-        /**
-         * Генерируем коллекцию всех доступных адресов
-         */
-        foreach ($this->availableCities as $key => $city) {
-            $rawData = include('data/ru/' . $key . '.php');
-            $addresses = new Collection();
-
-            foreach ($rawData as $street => $buildings) {
-                foreach ($buildings as $building) {
-                    $address = new Address($city, $street, $building);
-                    $addresses->push($address);
-                }
-            }
-
-            $this->availableAddresses->put($key, $addresses);
-        }
+        $this->makeAddresses();
     }
 
     /**
@@ -197,10 +162,55 @@ class Generator
     {
         $key = $this->searchableCityNames->get(Helper::prepare($name));
 
-        if(empty($key)) {
+        if (empty($key)) {
             throw new CityNotFound();
         }
 
         return $key;
+    }
+
+    /**
+     * Генерируем коллекцию всех доступных адресов
+     */
+    private function makeAddresses(): void
+    {
+        $this->availableAddresses = new Collection();
+
+        foreach ($this->availableCities as $key => $city) {
+            $rawData = include('data/ru/' . $key . '.php');
+            $addresses = new Collection();
+
+            foreach ($rawData as $street => $buildings) {
+                foreach ($buildings as $building) {
+                    $address = new Address($city, $street, $building);
+                    $addresses->push($address);
+                }
+            }
+
+            $this->availableAddresses->put($key, $addresses);
+        }
+    }
+
+    /**
+     * Генерирум коллекцию всех доступных городов
+     */
+    private function makeCities(): void
+    {
+        $this->availableCities = new Collection();
+
+        $this->searchableCityNames = new Collection();
+
+        foreach (include('data/cities.php') as $key => $items) {
+
+            $this->availableCities->put($key, $items[0]);
+
+            foreach ($items as $item) {
+                $item = Helper::prepare($item);
+
+                if (!$this->searchableCityNames->contains($item)) {
+                    $this->searchableCityNames->put($item, $key);
+                }
+            }
+        }
     }
 }
