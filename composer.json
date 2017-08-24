@@ -1,5 +1,5 @@
 {
-    "name": "ngtfkx/LaradeckAddressGenerator",
+    "name": "ngtfkx/laradeck-address-generator",
     "type": "library",
     "description": "Generating real addresses to create test data",
     "keywords": [
@@ -9,7 +9,7 @@
         "fixtures",
         "data"
     ],
-    "homepage": "https://github.com/ngtfkx/LaradeckAddressGenerator",
+    "homepage": "https://github.com/ngtfkx/laradeck-address-generator",
     "license": "MIT",
     "authors": [
         {
@@ -21,7 +21,7 @@
     ],
     "require": {
         "illuminate/support": "~5.1",
-        "php" : "~7.0"
+        "php" : "~7.1"
     },
     "require-dev": {
         "phpunit/phpunit" : ">=5.4.3",
