@@ -1,6 +1,6 @@
 <?php
 
-namespace Ngtfkx\LaradeckAddressGenerator\Exceptions;
+namespace Ngtfkx\Laradeck\AddressGenerator\Exceptions;
 
 
 class AddressGeneratorException extends \Exception

@@ -1,10 +1,10 @@
 <?php
 
-namespace Ngtfkx\LaradeckAddressGenerator;
+namespace Ngtfkx\Laradeck\AddressGenerator;
 
 
 use Illuminate\Support\Collection;
-use Ngtfkx\LaradeckAddressGenerator\Exceptions\CityNotFound;
+use Ngtfkx\Laradeck\AddressGenerator\Exceptions\CityNotFound;
 
 class Generator
 {

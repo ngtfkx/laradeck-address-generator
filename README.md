@@ -26,14 +26,14 @@ $ composer require ngtfkx/laradeck-address-generator ~0.1
 Получение случайного адреса для любого из городов, который есть в пакете
 
 ``` php
-$generator = new Generator();
+$generator = new \Ngtfkx\Laradeck\AddressGenerator\Generator();
 $address = $generator->getRandomAddress();
 ```
 
 Получение случайного адреса для любого из указанных городов
 
 ``` php
-$generator = new Generator();
+$generator = new \Ngtfkx\Laradeck\AddressGenerator\Generator();
 $generator->setCities('Tomsk', 'nsk', 'Омск'); // можно передавать массив
 $generator->addCity('новосибирск'); // добавит город к ранее установленным
 $address = $generator->getRandomAddress(); // адрес будет для какого-то из вышеуказанных 4-х горолдов

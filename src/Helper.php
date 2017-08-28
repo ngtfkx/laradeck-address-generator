@@ -1,6 +1,6 @@
 <?php
 
-namespace Ngtfkx\LaradeckAddressGenerator;
+namespace Ngtfkx\Laradeck\AddressGenerator;
 
 
 class Helper
