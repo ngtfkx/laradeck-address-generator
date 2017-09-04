@@ -101,7 +101,7 @@ class ParseCityAddressRu extends Command
         foreach ($this->streets as $street => $numbers) {
             $glueNumbers = implode('", "', $numbers);
             if (!empty($glueNumbers)) {
-                $output .= ' "' . trim($street, ";") . '" => ["' . $glueNumbers . '"],' . PHP_EOL;
+                $output .= '    "' . trim($street, ";") . '" => ["' . $glueNumbers . '"],' . PHP_EOL;
             }
         }
         $output .= '];' . PHP_EOL;
