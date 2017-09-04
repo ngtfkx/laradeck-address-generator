@@ -3,8 +3,8 @@
 namespace Tests\Packages\Ngtfkx\LaradeckAddressGenerator;
 
 use Illuminate\Support\Collection;
-use Ngtfkx\LaradeckAddressGenerator\Address;
-use Ngtfkx\LaradeckAddressGenerator\Generator;
+use Ngtfkx\Laradeck\AddressGenerator\Address;
+use Ngtfkx\Laradeck\AddressGenerator\Generator;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -90,7 +90,7 @@ class GeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \Ngtfkx\LaradeckAddressGenerator\Exceptions\CityNotFound
+     * @expectedException \Ngtfkx\Laradeck\AddressGenerator\Exceptions\CityNotFound
      */
     public function testCityNotFound()
     {

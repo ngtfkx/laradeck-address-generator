@@ -2,7 +2,7 @@
 
 namespace Tests\Packages\Ngtfkx\LaradeckAddressGenerator;
 
-use Ngtfkx\LaradeckAddressGenerator\Generator;
+use Ngtfkx\Laradeck\AddressGenerator\Generator;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
