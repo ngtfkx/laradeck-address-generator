@@ -3,6 +3,7 @@
 namespace Ngtfkx\Laradeck\AddressGenerator;
 
 use Illuminate\Support\ServiceProvider;
+use Ngtfkx\Laradeck\AddressGenerator\Commands\ParseCityAddressRu;
 
 class LaradeckAddressGeneratorServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,11 @@ class LaradeckAddressGeneratorServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                ParseCityAddressRu::class,
+            ]);
+        }
     }
 
     /**
