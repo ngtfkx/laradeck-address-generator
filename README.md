@@ -112,7 +112,7 @@ return [
 ### Генерация своих файлов данных
 
 Для генерации файла данных есть консольная команда 
-`address:city-address-ru {city} {url} {--limit=0}`
+`php artisan address:city-address-ru {city} {url} {--limit=0}`
 
 - {city} - id города в системе http://nominatim.openstreetmap.org/
 - {url} - первая страница города со списком улиц на сайте http://www.city-address.ru/, например [вот такая](http://www.city-address.ru/region-70_tomsk/all-street/)
