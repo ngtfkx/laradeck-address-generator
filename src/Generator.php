@@ -165,6 +165,8 @@ class Generator
     {
         $this->cities = new Collection();
 
+        $this->clearAddresses();
+        
         return $this;
     }
 
