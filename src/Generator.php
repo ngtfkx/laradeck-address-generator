@@ -112,6 +112,7 @@ class Generator
 
         if (!$this->cities->contains($city)) {
             $this->cities->put($key, $city);
+            $this->makeAddresses($key);
         }
 
         return $this;
@@ -166,7 +167,7 @@ class Generator
         $this->cities = new Collection();
 
         $this->clearAddresses();
-        
+
         return $this;
     }
 
