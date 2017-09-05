@@ -100,6 +100,16 @@ class GeneratorTest extends TestCase
     public function testGetRandomAddress()
     {
         $this->assertInstanceOf(Address::class, $this->generator->getRandomAddress());
+
+        $this->assertInstanceOf(Address::class, $this->generator->getRandomAddress('nsk'));
+    }
+
+    /**
+     * @expectedException \Ngtfkx\Laradeck\AddressGenerator\Exceptions\CityNotFound
+     */
+    public function testGetRandomAddressWithCityNotFound()
+    {
+        $this->assertInstanceOf(Address::class, $this->generator->getRandomAddress('nskkkkkk'));
     }
 
     public function testGetRandomAddresses()

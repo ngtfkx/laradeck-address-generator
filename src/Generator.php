@@ -29,15 +29,22 @@ class Generator
     protected $availableAddresses;
 
     /**
+     * @var Collection Список городов, для которых сгенерированы адреса
+     */
+    protected $usedCities;
+
+    /**
      * Generator constructor.
      */
     public function __construct()
     {
         $this->cities = new Collection();
 
-        $this->makeCities();
+        $this->usedCities = new Collection();
 
-        $this->makeAddresses();
+        $this->availableAddresses = new Collection();
+
+        $this->makeCities();
     }
 
     /**
@@ -55,6 +62,10 @@ class Generator
 
         $cityId = $this->getCityIdByName($forCity);
 
+        if ($this->usedCities->contains($cityId) === false) {
+            $this->makeAddresses($cityId);
+        }
+
         $address = $this->availableAddresses->get($cityId)->random();
 
         return $address;
@@ -64,7 +75,7 @@ class Generator
      * Получить несколько случайных адресов
      *
      * @param int $count Кол-во требуемых адресов
-     * @param null $forCity  Имя города, для которого генерировать адрес. По умолчанию null - из любого установленного
+     * @param null $forCity Имя города, для которого генерировать адрес. По умолчанию null - из любого установленного
      * @return Collection
      */
     public function getRandomAddresses(int $count, $forCity = null): Collection
@@ -188,25 +199,27 @@ class Generator
     }
 
     /**
-     * Генерируем коллекцию всех доступных адресов
+     * Генерируем коллекцию всех доступных адресов для указанного города
+     *
+     * @param int $cityId
      */
-    private function makeAddresses(): void
+    private function makeAddresses(int $cityId): void
     {
-        $this->availableAddresses = new Collection();
+        $city = $this->availableCities->get($cityId);
 
-        foreach ($this->availableCities as $key => $city) {
-            $rawData = include('data/ru/' . $key . '.php');
-            $addresses = new Collection();
+        $rawData = include('data/ru/' . $cityId . '.php');
+        $addresses = new Collection();
 
-            foreach ($rawData as $street => $buildings) {
-                foreach ($buildings as $building) {
-                    $address = new Address($city, $street, $building);
-                    $addresses->push($address);
-                }
+        foreach ($rawData as $street => $buildings) {
+            foreach ($buildings as $building) {
+                $address = new Address($city, $street, $building);
+                $addresses->push($address);
             }
-
-            $this->availableAddresses->put($key, $addresses);
         }
+
+        $this->usedCities->push($cityId);
+
+        $this->availableAddresses->put($cityId, $addresses);
     }
 
     /**
