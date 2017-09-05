@@ -7,6 +7,12 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\DomCrawler\Crawler;
 
+/**
+ * Парсер улиц и домов с сайта www.city-address.ru
+ *
+ * Class ParseCityAddressRu
+ * @package Ngtfkx\Laradeck\AddressGenerator\Commands
+ */
 class ParseCityAddressRu extends Command
 {
     /**
@@ -21,12 +27,27 @@ class ParseCityAddressRu extends Command
      *
      * @var string
      */
-    protected $description = 'Parse streets and building numbers from http://www.city-address.ru';
+    protected $description = 'Parse streets and building numbers from www.city-address.ru';
 
     /**
      * @var Collection
      */
     protected $streets;
+
+    /**
+     * @var int
+     */
+    protected $cityId;
+
+    /**
+     * @var int
+     */
+    protected $limit;
+
+    /**
+     * @var string
+     */
+    protected $url;
 
     public function __construct()
     {
@@ -35,23 +56,30 @@ class ParseCityAddressRu extends Command
         parent::__construct();
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle()
+    public function handle(): void
     {
-        $cityId = $this->argument('city');
+        $this->cityId = $this->argument('city');
 
-        $url = $this->argument('url');
+        $this->url = $this->argument('url');
 
-        $limit = (int)$this->option('limit');
+        $this->limit = (int)$this->option('limit');
 
+        $this->parse();
+
+        $this->generateFile();
+
+        $this->info('Data was saved');
+    }
+
+    /**
+     * Парсинг данных
+     */
+    protected function parse(): void
+    {
         /**
          * Получаем список всех страниц с улицами
          */
-        $firstPage = $this->download($url);
+        $firstPage = $this->download($this->url);
 
         $allPages = (int)(new Crawler($firstPage))->filter('.uk-pagination > li')->last()->text();
 
@@ -60,7 +88,7 @@ class ParseCityAddressRu extends Command
             /**
              * Получам список улиц на текущей странице
              */
-            $page = $this->download($url . '/page-' . $i . '/');
+            $page = $this->download($this->url . '/page-' . $i . '/');
 
             $this->line('Downloading streets and building numbers from page #' . $i . ' from ' . $allPages);
 
@@ -87,15 +115,31 @@ class ParseCityAddressRu extends Command
                 $this->streets->put($node->text(), $numbers);
             });
 
-            if (++$k == $limit) {
+            if (++$k == $this->limit) {
                 $this->warn('Interrupted by the limit');
                 break;
             }
         }
+    }
 
-        /**
-         * Генерируем контент для файла с данными
-         */
+    /**
+     * Скачивание страница
+     *
+     * @param string $url
+     * @return string
+     */
+    protected function download(string $url): string
+    {
+        $content = file_get_contents($url);
+
+        return $content;
+    }
+
+    /**
+     * Запись данных в файл
+     */
+    protected function generateFile(): void
+    {
         $output = '<?php' . PHP_EOL . PHP_EOL;
         $output .= 'return [' . PHP_EOL;
         foreach ($this->streets as $street => $numbers) {
@@ -106,15 +150,6 @@ class ParseCityAddressRu extends Command
         }
         $output .= '];' . PHP_EOL;
 
-        Storage::put($cityId . '.php', $output);
-
-        $this->info('Data was saved');
-    }
-
-    protected function download(string $url)
-    {
-        $content = file_get_contents($url);
-
-        return $content;
+        Storage::put($this->cityId . '.php', $output);
     }
 }
