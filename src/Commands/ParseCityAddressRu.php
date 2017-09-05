@@ -116,9 +116,9 @@ class ParseCityAddressRu extends Command
                  * Обрабатываем список домов
                  */
                 $numbers = collect((new Crawler($page))->filter('.c6 > div > a')->extract('_text'))
-                    ->reject(function ($item, $key) {
+                    ->reject(function ($item) {
                         return strpos($item, 'дом ') !== 0;
-                    })->map(function ($item, $key) {
+                    })->map(function ($item) {
                         return str_replace('дом № ', '', $item);
                     })->toArray();
 
