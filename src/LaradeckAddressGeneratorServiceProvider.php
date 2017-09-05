@@ -3,6 +3,7 @@
 namespace Ngtfkx\Laradeck\AddressGenerator;
 
 use Illuminate\Support\ServiceProvider;
+use Ngtfkx\Laradeck\AddressGenerator\Commands\GetStat;
 use Ngtfkx\Laradeck\AddressGenerator\Commands\ParseCityAddressRu;
 
 class LaradeckAddressGeneratorServiceProvider extends ServiceProvider
@@ -17,6 +18,7 @@ class LaradeckAddressGeneratorServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 ParseCityAddressRu::class,
+                GetStat::class,
             ]);
         }
     }

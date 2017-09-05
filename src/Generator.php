@@ -72,6 +72,16 @@ class Generator
     }
 
     /**
+     * Получить все сгенированные адреса
+     *
+     * @return Collection
+     */
+    public function getAllAddresses(): Collection
+    {
+        return $this->availableAddresses;
+    }
+
+    /**
      * Получить несколько случайных адресов
      *
      * @param int $count Кол-во требуемых адресов
@@ -154,6 +164,20 @@ class Generator
     public function clearCities(): Generator
     {
         $this->cities = new Collection();
+
+        return $this;
+    }
+
+    /**
+     * Очистить список сгенерированных адресов
+     *
+     * @return Generator
+     */
+    public function clearAddresses(): Generator
+    {
+        $this->availableAddresses = new Collection();
+
+        $this->usedCities = new Collection();
 
         return $this;
     }
