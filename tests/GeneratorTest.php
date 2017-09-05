@@ -101,4 +101,13 @@ class GeneratorTest extends TestCase
     {
         $this->assertInstanceOf(Address::class, $this->generator->getRandomAddress());
     }
+
+    public function testGetRandomAddresses()
+    {
+        $addresses = $this->generator->getRandomAddresses(5);
+
+        $this->assertInstanceOf(Collection::class, $addresses);
+        $this->assertEquals(5, $addresses->count());
+        $this->assertInstanceOf(Address::class, $addresses->first());
+    }
 }

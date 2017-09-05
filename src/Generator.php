@@ -61,6 +61,24 @@ class Generator
     }
 
     /**
+     * Получить несколько случайных адресов
+     *
+     * @param int $count Кол-во требуемых адресов
+     * @param null $forCity  Имя города, для которого генерировать адрес. По умолчанию null - из любого установленного
+     * @return Collection
+     */
+    public function getRandomAddresses(int $count, $forCity = null): Collection
+    {
+        $addresses = new Collection();
+
+        for ($i = 1; $i <= $count; $i++) {
+            $addresses->push($this->getRandomAddress($forCity));
+        }
+
+        return $addresses;
+    }
+
+    /**
      * Добавить город в список, для которого будем генерировать адреса
      *
      * @param string $city
