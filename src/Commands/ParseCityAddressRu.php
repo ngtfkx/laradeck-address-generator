@@ -49,6 +49,11 @@ class ParseCityAddressRu extends Command
      */
     protected $url;
 
+    /**
+     * @var string
+     */
+    protected $name;
+
     public function __construct()
     {
         $this->streets = new Collection();
@@ -83,7 +88,12 @@ class ParseCityAddressRu extends Command
 
         $allPages = (int)(new Crawler($firstPage))->filter('.uk-pagination > li')->last()->text();
 
+        $name = (new Crawler($firstPage))->filterXpath('//meta[@name="geo.placename"]')->attr('content');
+
+        $this->name = explode(', ', $name)[0];
+
         $k = 0;
+
         for ($i = 1; $i <= $allPages; $i++) {
             /**
              * Получам список улиц на текущей странице
@@ -141,6 +151,9 @@ class ParseCityAddressRu extends Command
     protected function generateFile(): void
     {
         $output = '<?php' . PHP_EOL . PHP_EOL;
+        $output .= '/**' . PHP_EOL;
+        $output .= ' * ' . $this->name . ', Россия' . PHP_EOL;
+        $output .= ' */' . PHP_EOL . PHP_EOL;
         $output .= 'return [' . PHP_EOL;
         foreach ($this->streets as $street => $numbers) {
             $glueNumbers = implode('", "', $numbers);
