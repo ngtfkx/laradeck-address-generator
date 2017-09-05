@@ -4,6 +4,13 @@ All Notable changes to `Laradeck Address Generator` will be documented in this f
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 0.4.0 - 2017-09-04
+
+### Added
+- Консольная команда для парсинга данные по России
+- Консольная команда для вывода статистики
+- Автоматическое подключение сервис-провайдера
+
 ## 0.3.0 - 2017-09-04
 
 ### Added

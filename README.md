@@ -21,6 +21,13 @@ Via Composer
 $ composer require ngtfkx/laradeck-address-generator
 ```
 
+Если необходимы консольные команды или подключение своих источников данных, то добавьте в файл `config/app.php` (для версий <=5.4.*) 
+сервис-провайдер
+
+``` php
+Ngtfkx\Laradeck\AddressGenerator\LaradeckAddressGeneratorServiceProvider::class,
+```
+
 ## Usage
 
 Получение случайного адреса для любого из городов, который есть в пакете
