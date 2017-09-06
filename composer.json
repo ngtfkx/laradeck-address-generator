@@ -8,7 +8,8 @@
         "address",
         "fixtures",
         "data",
-        "laradeck"
+        "laradeck",
+        "laravel"
     ],
     "homepage": "https://github.com/ngtfkx/laradeck-address-generator",
     "license": "MIT",
