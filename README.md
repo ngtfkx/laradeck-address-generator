@@ -151,6 +151,12 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 - [Denis Sandal][link-author]
 - [All Contributors][link-contributors]
 
+## Milestones
+
+- Version 1: базовая функциональность
+- Version 2: подключение стран, локализация, геокординаты, перевод на английский
+- Version 3: отвязка от фреймворка
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
