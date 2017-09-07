@@ -56,7 +56,7 @@ class Generator
      * @return Address
      * @throws CityNotFound Город не найден в списке доступных
      */
-    public function getRandomAddress($forCity = null): Address
+    public function getRandomAddress(string $forCity = null): Address
     {
         $forCity = $forCity ?: $this->getCities()->random();
 
@@ -87,10 +87,10 @@ class Generator
      * Получить несколько случайных адресов
      *
      * @param int $count Кол-во требуемых адресов
-     * @param null $forCity Имя города, для которого генерировать адрес. По умолчанию null - из любого установленного
+     * @param null|string $forCity Имя города, для которого генерировать адрес. По умолчанию null - из любого установленного
      * @return Collection
      */
-    public function getRandomAddresses(int $count, $forCity = null): Collection
+    public function getRandomAddresses(int $count, string $forCity = null): Collection
     {
         $addresses = new Collection();
 
