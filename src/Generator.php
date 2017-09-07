@@ -4,6 +4,8 @@ namespace Ngtfkx\Laradeck\AddressGenerator;
 
 
 use Illuminate\Support\Collection;
+use Ngtfkx\Laradeck\AddressGenerator\Exceptions\CityDataFileNotFound;
+use Ngtfkx\Laradeck\AddressGenerator\Exceptions\CityListFileNotFound;
 use Ngtfkx\Laradeck\AddressGenerator\Exceptions\CityNotFound;
 
 class Generator
@@ -58,7 +60,7 @@ class Generator
     {
         $forCity = $forCity ?: $this->getCities()->random();
 
-        $forCity = Helper::prepare($forCity);
+        $forCity = $this->prepare($forCity);
 
         $cityId = $this->getCityIdByName($forCity);
 
@@ -124,8 +126,10 @@ class Generator
      * @param array ...$cities
      * @return Generator
      */
-    public function addCities(...$cities): Generator
+    public function addCities(): Generator
     {
+        $cities = func_get_args();
+
         foreach ($cities as $city) {
             if (!is_array($city)) {
                 $city = [$city];
@@ -144,8 +148,10 @@ class Generator
      * @param array ...$cities
      * @return Generator
      */
-    public function setCities(...$cities): Generator
+    public function setCities(): Generator
     {
+        $cities = func_get_args();
+
         $this->clearCities();
 
         if (sizeof($cities) === 1 && is_array($cities[0])) {
@@ -216,7 +222,7 @@ class Generator
      */
     protected function getCityIdByName(string $name): int
     {
-        $key = $this->searchableCityNames->get(Helper::prepare($name));
+        $key = $this->searchableCityNames->get($this->prepare($name));
 
         if (empty($key)) {
             throw new CityNotFound();
@@ -230,14 +236,13 @@ class Generator
      *
      * @param int $cityId
      */
-    private function makeAddresses(int $cityId): void
+    protected function makeAddresses(int $cityId)
     {
         $city = $this->availableCities->get($cityId);
 
-        $rawData = include('data/ru/' . $cityId . '.php');
         $addresses = new Collection();
 
-        foreach ($rawData as $street => $buildings) {
+        foreach ($this->loadData($cityId) as $street => $buildings) {
             foreach ($buildings as $building) {
                 $address = new Address($city, $street, $building);
                 $addresses->push($address);
@@ -250,25 +255,77 @@ class Generator
     }
 
     /**
+     * Загрузка сырых данных по городу
+     *
+     * @param int $cityId
+     * @return array
+     * @throws CityDataFileNotFound
+     */
+    protected function loadData(int $cityId): array
+    {
+        $file = __DIR__ . '/data/ru/' . $cityId . '.php';
+
+        if (!file_exists($file)) {
+            throw new CityDataFileNotFound();
+        }
+
+        $rawData = require($file);
+
+        return $rawData;
+    }
+
+    /**
+     * Загрузка списка городов с алиасами
+     *
+     * @return array
+     * @throws CityListFileNotFound
+     */
+    protected function loadCities(): array
+    {
+        $file = __DIR__ . '/data/cities.php';
+
+        if (!file_exists($file)) {
+            throw new CityListFileNotFound();
+        }
+
+        $rawData = require($file);
+
+        return $rawData;
+    }
+
+    /**
      * Генерирум коллекцию всех доступных городов
      */
-    private function makeCities(): void
+    protected function makeCities()
     {
         $this->availableCities = new Collection();
 
         $this->searchableCityNames = new Collection();
 
-        foreach (include('data/cities.php') as $key => $items) {
+        foreach ($this->loadCities() as $key => $items) {
 
             $this->availableCities->put($key, $items[0]);
 
             foreach ($items as $item) {
-                $item = Helper::prepare($item);
+                $item = $this->prepare($item);
 
                 if (!$this->searchableCityNames->contains($item)) {
                     $this->searchableCityNames->put($item, $key);
                 }
             }
         }
+    }
+
+    /**
+     * Приведение разных вариантов написания наименования города к общему виду
+     *
+     * @param $string
+     * @return string
+     */
+    protected function prepare($string): string
+    {
+        $string = str_replace([' ', '-', '_'], '', mb_strtolower($string));
+
+        return $string;
     }
 }

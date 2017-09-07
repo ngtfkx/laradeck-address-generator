@@ -30,7 +30,7 @@ class GetStat extends Command
      */
     protected $description = 'Get stat';
 
-    public function handle(): void
+    public function handle()
     {
         $generator = new Generator();
 

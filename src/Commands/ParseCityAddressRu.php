@@ -61,7 +61,7 @@ class ParseCityAddressRu extends Command
         parent::__construct();
     }
 
-    public function handle(): void
+    public function handle()
     {
         $this->cityId = $this->argument('city');
 
@@ -79,11 +79,8 @@ class ParseCityAddressRu extends Command
     /**
      * Парсинг данных
      */
-    protected function parse(): void
+    protected function parse()
     {
-        /**
-         * Получаем список всех страниц с улицами
-         */
         $firstPage = $this->download($this->url);
 
         $allPages = (int)(new Crawler($firstPage))->filter('.uk-pagination > li')->last()->text();
@@ -95,9 +92,6 @@ class ParseCityAddressRu extends Command
         $k = 0;
 
         for ($i = 1; $i <= $allPages; $i++) {
-            /**
-             * Получам список улиц на текущей странице
-             */
             $page = $this->download($this->url . '/page-' . $i . '/');
 
             $this->line('Downloading streets and building numbers from page #' . $i . ' from ' . $allPages);
@@ -105,16 +99,10 @@ class ParseCityAddressRu extends Command
             $streets = (new Crawler($page))->filter('.c4 > a');
 
             $streets->each(function ($node) {
-                /**
-                 * Получаем список домов
-                 */
                 $url = 'http://www.city-address.ru' . $node->attr('href');
 
                 $page = $this->download($url);
 
-                /**
-                 * Обрабатываем список домов
-                 */
                 $numbers = collect((new Crawler($page))->filter('.c6 > div > a')->extract('_text'))
                     ->reject(function ($item) {
                         return strpos($item, 'дом ') !== 0;
@@ -148,7 +136,7 @@ class ParseCityAddressRu extends Command
     /**
      * Запись данных в файл
      */
-    protected function generateFile(): void
+    protected function generateFile()
     {
         $output = '<?php' . PHP_EOL . PHP_EOL;
         $output .= '/**' . PHP_EOL;
