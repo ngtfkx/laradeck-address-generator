@@ -237,6 +237,8 @@ class Generator
     {
         $cityNames = is_array($cityName) ? $cityName : [$cityName];
 
+        $data = [];
+
         $data[$cityId] = $cityNames;
 
         $this->makeCities($data);
