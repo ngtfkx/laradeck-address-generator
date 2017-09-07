@@ -36,6 +36,11 @@ class Generator
     protected $usedCities;
 
     /**
+     * @var Collection Коллекция кастомных файлов данныъ
+     */
+    protected $customDataFiles;
+
+    /**
      * Generator constructor.
      */
     public function __construct()
@@ -46,7 +51,13 @@ class Generator
 
         $this->availableAddresses = new Collection();
 
-        $this->makeCities();
+        $this->availableCities = new Collection();
+
+        $this->searchableCityNames = new Collection();
+
+        $this->customDataFiles = new Collection();
+
+        $this->makeCities($this->loadCities());
     }
 
     /**
@@ -214,6 +225,30 @@ class Generator
     }
 
     /**
+     * Подключение городов пользователя
+     *
+     * @param int $cityId ID города
+     * @param string|array $cityName Наименование города
+     * @param string $dataFile Путь до файла данных относительно папки storage
+     *
+     * @return Generator
+     */
+    public function loadCustomData(int $cityId, $cityName, string $dataFile): Generator
+    {
+        $cityNames = is_array($cityName) ? $cityName : [$cityName];
+
+        $data[$cityId] = $cityNames;
+
+        $this->makeCities($data);
+
+        $this->customDataFiles->put($cityId, $dataFile);
+
+        $this->addCity($cityNames[0]);
+
+        return $this;
+    }
+
+    /**
      * Получить ID города по его имени
      *
      * @param string $name
@@ -263,7 +298,9 @@ class Generator
      */
     protected function loadData(int $cityId): array
     {
-        $file = __DIR__ . '/data/ru/' . $cityId . '.php';
+        $file = $this->customDataFiles->has($cityId)
+            ? storage_path($this->customDataFiles->get($cityId) )
+            :__DIR__ . '/data/ru/' . $cityId . '.php';
 
         if (!file_exists($file)) {
             throw new CityDataFileNotFound();
@@ -296,14 +333,9 @@ class Generator
     /**
      * Генерирум коллекцию всех доступных городов
      */
-    protected function makeCities()
+    protected function makeCities($data)
     {
-        $this->availableCities = new Collection();
-
-        $this->searchableCityNames = new Collection();
-
-        foreach ($this->loadCities() as $key => $items) {
-
+        foreach ($data as $key => $items) {
             $this->availableCities->put($key, $items[0]);
 
             foreach ($items as $item) {
