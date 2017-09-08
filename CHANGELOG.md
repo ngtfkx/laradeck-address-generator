@@ -4,6 +4,11 @@ All Notable changes to `Laradeck Address Generator` will be documented in this f
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 0.6.0 - 2017-09-09
+
+### Added
+- Добавление данных для большого кол-ва городов
+
 ## 0.5.0 - 2017-09-08
 
 ### Added
