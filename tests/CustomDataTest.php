@@ -27,7 +27,7 @@ class CustomDataTest extends TestCase
 
         $file = 'app/111.php';
 
-        $this->generator->loadCustomData($cityId, $cityName, $file);
+        $this->generator->loadCustomData($cityId, $cityName, storage_path($file));
     }
 
     protected function tearDown()

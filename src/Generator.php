@@ -225,7 +225,7 @@ class Generator
      *
      * @param int $cityId ID города
      * @param string|array $cityName Наименование города
-     * @param string $dataFile Путь до файла данных относительно папки storage
+     * @param string $dataFile Путь до файла данных корня диска
      *
      * @return Generator
      */
@@ -297,7 +297,7 @@ class Generator
     protected function loadData(int $cityId): array
     {
         $file = $this->customDataFiles->has($cityId)
-            ? storage_path($this->customDataFiles->get($cityId) )
+            ? $this->customDataFiles->get($cityId)
             :__DIR__ . '/data/ru/' . $cityId . '.php';
 
         if (!file_exists($file)) {
