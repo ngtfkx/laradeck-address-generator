@@ -330,6 +330,8 @@ class Generator
 
     /**
      * Генерирум коллекцию всех доступных городов
+     *
+     * @param array $data
      */
     protected function makeCities($data)
     {
