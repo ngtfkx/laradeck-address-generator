@@ -137,10 +137,8 @@ class Generator
      * @param array ...$cities
      * @return Generator
      */
-    public function addCities(): Generator
+    public function addCities(...$cities): Generator
     {
-        $cities = func_get_args();
-
         foreach ($cities as $city) {
             if (!is_array($city)) {
                 $city = [$city];
@@ -159,10 +157,8 @@ class Generator
      * @param array ...$cities
      * @return Generator
      */
-    public function setCities(): Generator
+    public function setCities(...$cities): Generator
     {
-        $cities = func_get_args();
-
         $this->clearCities();
 
         if (sizeof($cities) === 1 && is_array($cities[0])) {
